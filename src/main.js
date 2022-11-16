@@ -323,12 +323,13 @@ function shuffle(array) {
   }
   return array;
 }
-chadList.forEach(chadDNA => dnaList.add(chadDNA))
+
 const startCreating = async () => {
   let layerConfigIndex = 0;
   let editionCount = startEditionsFrom;
   let failedCount = 0;
   let abstractedIndexes = [];
+  chadList.forEach(chadDNA => dnaList.add(chadDNA))
   for (
     let i = network == NETWORK.sol ? 0 : startEditionsFrom;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
