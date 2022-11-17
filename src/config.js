@@ -45,6 +45,21 @@ const layerConfigurations = [
   },
 ];
 
+const overrideChads = [
+  {
+    id: 0,
+    newTraits: [
+      { trait_type: 'Background', value: 'Blueish' },
+    ]
+  },
+  {
+    id: 1,
+    newTraits: [
+      { trait_type: 'Background', value: 'Mint' },
+    ]
+  },
+]
+
 const shuffleLayerConfigurations = false;
 
 const debugLogs = false;
@@ -121,5 +136,6 @@ module.exports = {
   solanaMetadata,
   gif,
   preview_gif,
-  startEditionsFrom
+  startEditionsFrom,
+  overrideChads
 };

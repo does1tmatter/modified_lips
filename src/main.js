@@ -21,7 +21,8 @@ const {
   network,
   solanaMetadata,
   gif,
-  startEditionsFrom
+  startEditionsFrom,
+  overrideChads
 } = require(`${basePath}/src/config.js`);
 const canvas = createCanvas(format.width, format.height);
 const ctx = canvas.getContext("2d");
@@ -32,7 +33,7 @@ const dnaList = new Set();
 const DNA_DELIMITER = "-";
 const HashlipsGiffer = require(`${basePath}/modules/HashlipsGiffer.js`);
 
-const chadList = require(`${basePath}/ChadCollectionDNA.json`)
+const chadList = require(`${basePath}/ChadCollection.json`)
 
 let hashlipsGiffer = null;
 
@@ -329,7 +330,20 @@ const startCreating = async () => {
   let editionCount = startEditionsFrom;
   let failedCount = 0;
   let abstractedIndexes = [];
-  chadList.forEach(chadDNA => dnaList.add(chadDNA))
+  chadList.forEach((chad, id) => {
+    if (chad.attributes) {
+      const tempArr = []
+      if (overrideChads.find(x => x.id === id)) {
+        const override = overrideChads.find(x => x.id === id).newTraits
+        override.forEach(trait => {
+          const index = chad.attributes.findIndex((el) => el.trait_type === trait.trait_type)
+          chad.attributes[index].value = trait.value
+        })
+      }
+      chad.attributes.forEach(trait => tempArr.push(trait.value))
+      dnaList.add(sha1(tempArr.join('-')))
+    }
+  })
   for (
     let i = network == NETWORK.sol ? 0 : startEditionsFrom;
     i <= layerConfigurations[layerConfigurations.length - 1].growEditionSizeTo;
